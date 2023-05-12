@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Search";
+}
+
+<div data-role="view" id="home" data-use-native-scrolling="true">
+    <header data-role="header">
+        <div data-role="navbar" class="km-accent">
+		    <ul data-role="listview" data-style="inset" data-align="left" >
+                <li>
+                    <label class="km-label-above">
+                        Zoeken...
+                        <form id="searchform">
+                            <input id="search" type="text" />
+                            <input type="submit" style="display:none;" />
+                        </form>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div id="results"></div>
+</div>
+
+
+<script type="text/x-kendo-template" id="template">
+    <a data-role="button" class="km-primary km-button-right km-icon-button" data-click="add">
+        <span class="km-icon km-plus"></span>
+        <p class="id">#:id#</p>
+    </a>
+    <img class="km-thumbnail" src="#:image#" />
+    <h5 class="km-bold">#:title#</h5>
+    <p class="channel">#:channel#</p>
+</script>
+
+@section Scripts {
+	<script src="~/js/search.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,34 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.km-list > li {
+    border: none !important;
+}
+
+    .km-list > li label {
+        color: #ffffff95 !important;
+    }
+
+.km-leftitem, .km-leftitem > div {
+    width: 100%;
+}
+
+#search {
+    color: #fff;
+}
+
+.km-thumbnail {
+    height: 73px !important;
+    width: 130px !important;
+    border-radius: 0 !important;
+}
+
+.channel {
+    font-size: 14px !important;
+}
+
+.id {
+    display: none;
+}
