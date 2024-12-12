@@ -1,15 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Music.Models;
 
-namespace Music.Data
+namespace Web.Data
 {
     public class VideoContext : DbContext
     {
         public DbSet<Video> Videos { get; set; }
 
-        public VideoContext(DbContextOptions<VideoContext> options) : base(options) 
-        {
-            optionsBuilder.UseSqlite("Data Source=Muziek.db;");
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseNpgsql(@"Host=myserver;Username=mylogin;Password=mypass;Database=mydatabase");
+    }
+
+    public class Video
+    {
+        public required string Id { get; set; }
+
+        public DateTime Added { get; set; }
     }
 }

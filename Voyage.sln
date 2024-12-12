@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33209.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music", "Music\Music.csproj", "{EA0B681B-47AB-474F-94A4-554706A4C576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Music\Web.csproj", "{EA0B681B-47AB-474F-94A4-554706A4C576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

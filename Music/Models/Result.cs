@@ -1,6 +1,6 @@
-﻿namespace Music.Models
+﻿namespace Web.Models
 {
-    public class VideoSearch
+    public class Result
     {
         public string? Title { get; set; }
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Music.Models;
 using System.Diagnostics;
+using Web.Models;
 
-namespace Music.Controllers
+namespace Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -14,11 +14,6 @@ namespace Music.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Player()
         {
             return View();
         }

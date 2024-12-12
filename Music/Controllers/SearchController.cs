@@ -2,17 +2,24 @@
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.AspNetCore.Mvc;
-using Music.Models;
+using Web.Models;
 
-namespace Music.Apis
+namespace Web.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
+        private readonly ILogger<SearchController> _logger;
+
+        public SearchController(ILogger<SearchController> logger)
+        {
+            _logger = logger;
+        }
+
         // GET api/<SearchController>/5
         [HttpGet("{terms}")]
-        public async Task<List<VideoSearch>> GetAsync(string terms)
+        public async Task<List<Result>> GetAsync(string terms)
         {
             YouTubeService youtubeService = new(new BaseClientService.Initializer()
             {
@@ -21,17 +28,17 @@ namespace Music.Apis
             });
 
             SearchResource.ListRequest searchListRequest = youtubeService.Search.List("snippet");
-            searchListRequest.VideoEmbeddable = SearchResource.ListRequest.VideoEmbeddableEnum.True__;
+            //searchListRequest.VideoEmbeddable = SearchResource.ListRequest.VideoEmbeddableEnum.True__;
             searchListRequest.MaxResults = 20;
             searchListRequest.Type = "video";
             searchListRequest.Q = terms;
 
             SearchListResponse searchListResponse = await searchListRequest.ExecuteAsync();
-            List<VideoSearch> videos = new();
+            List<Result> videos = [];
 
-            foreach (SearchResult? searchResult in searchListResponse.Items)
+            foreach (SearchResult searchResult in searchListResponse.Items)
             {
-                videos.Add(new VideoSearch
+                videos.Add(new Result
                 {
                     Title = searchResult.Snippet.Title,
                     Channel = searchResult.Snippet.ChannelTitle,
