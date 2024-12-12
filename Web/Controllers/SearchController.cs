@@ -10,10 +10,13 @@ namespace Web.Controllers
     [Route("api/[controller]")]
     public class SearchController : ControllerBase
     {
+        private readonly IConfiguration _config;
+
         private readonly ILogger<SearchController> _logger;
 
-        public SearchController(ILogger<SearchController> logger)
+        public SearchController(IConfiguration config, ILogger<SearchController> logger)
         {
+            _config = config;
             _logger = logger;
         }
 
@@ -22,7 +25,7 @@ namespace Web.Controllers
         {
             YouTubeService youtubeService = new(new BaseClientService.Initializer()
             {
-                ApiKey = "",
+                ApiKey = _config["YouTubeApiKey"],
                 ApplicationName = GetType().ToString()
             });
 

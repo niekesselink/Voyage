@@ -1,7 +1,12 @@
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var appAssembly = Assembly.Load(new AssemblyName(builder.Environment.ApplicationName));
+builder.Configuration.AddUserSecrets(appAssembly);
 
 var app = builder.Build();
 
