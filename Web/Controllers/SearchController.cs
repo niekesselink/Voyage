@@ -17,7 +17,6 @@ namespace Web.Controllers
             _logger = logger;
         }
 
-        // GET api/<SearchController>/5
         [HttpGet("{terms}")]
         public async Task<List<Result>> GetAsync(string terms)
         {
