@@ -1,34 +1,64 @@
-html {
-  position: relative;
-  min-height: 100%;
+@font-face {
+    font-family: 'Haext Plain';
+    src: url('HaextPlain.woff2') format('woff2'), url('HaextPlain.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.km-list > li {
-    border: none !important;
+.km-group-title {
+    background: #ff4350 !important;
 }
 
-    .km-list > li label {
-        color: #ffffff95 !important;
+    .km-group-title .km-text {
+        color: #fff;
     }
 
-.km-leftitem, .km-leftitem > div {
-    width: 100%;
-}
-
-#search {
-    color: #fff;
-}
-
 .km-thumbnail {
-    height: 73px !important;
-    width: 130px !important;
+    width: auto !important;
+    height: 65px !important;
     border-radius: 0 !important;
 }
 
-.channel {
-    font-size: 14px !important;
+.km-nova h6 {
+    font-size: .8em !important;
 }
 
-.id {
-    display: none;
+.km-nova .km-button-right {
+    margin-left: 10px;
+}
+
+#searchlist li {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+#floatButton {
+    position: absolute;
+    top: -60px;
+    right: 14px;
+    width: 45px;
+    height: 45px;
+    color: white;
+    background-color: #ff4350;
+    border-radius: 22px;
+    border-color: #ff4350;
+    font-size: 1.2em;
+}
+
+.permission {
+    white-space: nowrap;
+}
+
+.salem {
+    font-size: 48px;
+    font-family: 'Haext Plain', serif;
+    display: block;
+    margin-bottom: 24px;
+}
+
+.version {
+    font-size: 12px;
+    text-transform: none;
+    margin: 0;
+    padding: 0;
 }

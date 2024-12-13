@@ -1,49 +1,98 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-// Write your JavaScript code.
-$(document).ready(function () {
+var app = new kendo.mobile.Application(document.body, { layout: 'voyage', skin: 'nova' }),
+    searchInput = document.getElementById('search'),
+    captionCurrent = 0,
+    captionLength = 0,
+    captionRun = 0,
+    captions = {};
 
-    // Kendo UI.
-    var app = new kendo.mobile.Application(document.body, { skin: "nova" });
-
-    // Create result view.
-    $("#results").kendoMobileListView({
-        template: kendo.template($("#template").html()),
-        pageable: true
-    });
-
-    // For the search...
-    $('#searchform').submit(function (event) {
-        $.ajax({
-            url: '/api/search/' + $('#search').val(),
-            type: 'get',
-            success: function (data) {
-                var results = $("#results").data("kendoMobileListView");
-                results.setDataSource(data)
-            }
-        });
-        event.preventDefault();
-    });
+document.addEventListener('DOMContentLoaded', () => {
+    captions = ['Train - Shake it Up', 'Longest Johns - Llandroger', 'Disturbed - Sound of Silence'];
+    if (searchInput && captionRun == 0) {
+        captionRun = setTimeout(startType, 600);
+    }
 });
 
-function add(e) {
-    var videoId;
-    if (event.target.querySelector('.id') != null) {
-        videoId = event.target.querySelector('.id').innerHTML;
-    } else {
-        videoId = event.target.parentElement.querySelector('.id').innerHTML;
+var searchDatasource = new kendo.data.DataSource({
+    transport: {
+        read: function (operation) {
+            if (!searchInput.value) {
+                operation.success([]);
+                return;
+            }
+
+            $.ajax({
+                url: '/api/search/' + searchInput.value,
+                type: 'get',
+                success: function (results) {
+                    operation.success(results);
+                }
+            });
+        }
+    }
+});
+
+var searchViewModel = kendo.observable({
+    searchTerm: '',
+    source: searchDatasource,
+    onSearch: function (e) {
+        if (this.get('searchTerm')) {
+            searchDatasource.read();
+        }
+
+        e.preventDefault();
+    },
+    onAdd: function (e) {
+        $.ajax({
+            url: '/api/search/add/' + e.data,
+            type: 'get',
+            success: function (data) {
+                alert('Liedje is toegevoegd aan de afspeellijst!');
+                searchInput.value = null;
+                searchDatasource.read();
+            }
+        });
+
+        e.preventDefault();
+    }
+});
+
+// Ticker code from external sources below...
+
+var startType = function () {
+    if (captionCurrent >= captions.length) {
+        captionCurrent = 0;
     }
 
-    $.ajax({
-        url: '/api/search/add/' + videoId,
-        type: 'get',
-        success: function (data) {
-            alert('Liedje is toegevoegd!');
+    caption = captions[captionCurrent];
+    captionCurrent++;
+    captionLength = 1;
 
-            $('#search').val('')
-            var results = $("#results").data("kendoMobileListView");
-            results.setDataSource({ })
-        }
-    });
-}
+    captionRun = setInterval(doType, 50);
+};
+
+var doType = function () {
+    searchInput.placeholder = caption.substring(0, captionLength++);
+
+    if (captionLength === caption.length + 1) {
+        clearInterval(captionRun);
+        captionRun = setTimeout(startErase, 1000);
+    }
+};
+
+var startErase = function () {
+    clearTimeout(captionRun);
+    captionLength = caption.length;
+    captionRun = setInterval(doErase, 50);
+};
+
+var doErase = function () {
+    searchInput.placeholder = caption.substring(0, captionLength--);
+
+    if (captionLength < 0) {
+        clearInterval(captionRun);
+        captionRun = setTimeout(startType, 1000);
+    }
+};
