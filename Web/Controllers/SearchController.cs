@@ -52,7 +52,6 @@ namespace Web.Controllers
             return videos;
         }
 
-        // GET api/<SearchController>
         [HttpGet("add/{id}")]
         public void Add(string id)
         {
