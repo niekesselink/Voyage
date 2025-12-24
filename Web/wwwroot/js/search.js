@@ -45,15 +45,21 @@ var searchViewModel = kendo.observable({
         e.preventDefault();
     },
     onAdd: function (e) {
-        $.ajax({
-            url: '/api/search/add/' + e.data,
-            type: 'get',
-            success: function (data) {
+
+        fetch('/api/search/add/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(e.data)
+        })
+            .then(() => {
                 alert('Liedje is toegevoegd aan de afspeellijst!');
                 searchInput.value = null;
                 searchDatasource.read();
-            }
-        });
+            })
+            .catch(error => alert('Unable to add item.\n' + error));
 
         e.preventDefault();
     }

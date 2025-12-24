@@ -2,6 +2,8 @@
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Web.Data;
 using Web.Models;
 
 namespace Web.Controllers
@@ -52,10 +54,26 @@ namespace Web.Controllers
             return videos;
         }
 
-        [HttpGet("add/{id}")]
-        public void Add(string id)
+        [HttpPost("add")]
+        public void Add(Result result)
         {
+            // Ensure it's going to be played before old entries.
+            var lastPlayed = DateTime.Now.AddHours(-12);
 
+            // Translate search result to an entry.
+            var entry = new Entry
+            {
+                Title = result.Title,
+                YouTubeID = result.Id,
+                LastPlayed = lastPlayed
+            };
+
+            // Get database.
+            var db = new DataContext();
+
+            // Hocus pocus save!
+            db.Entries.Add(entry);
+            db.SaveChanges();
         }
     }
 }
